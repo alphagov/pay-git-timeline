@@ -27,7 +27,9 @@ repos.each do |repo, sha|
   end
 end
 
-puts "<ul>"
+puts "<table>"
 merges.sort_by {|m| m[:datetime]}.each do |merge|
-  puts %{<li>#{merge[:date]}: #{merge[:repo]} <a href="#{merge[:pr_url]}">#{merge[:message]}</a></li>\n}
+  parts = [merge[:date],merge[:repo],%{<a href="#{merge[:pr_url]}">#{merge[:message]}</a>}]
+  puts "<tr><td>#{parts.join('</td><td>')}</td></tr>"
 end
+puts "</table>"
