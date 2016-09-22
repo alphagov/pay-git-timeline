@@ -1,0 +1,143 @@
+PP-233_swagger_docs [] 
+PP-421 [] 
+PP-424 [] 
+PP-424_adding_create_date [] 
+PP-436 [] 
+PP-451 [] 
+PP-489 [] 
+PP-490 [] 
+PP-497_swagger_doc [] 
+PP-611-Update-Documentation [] 
+PP-656 [] 
+PP-864_email_json_not_null [] 
+PP-864_swagger [] 
+PP_101_quicker_feedback [] 
+PP_101_quicker_feedback_final [] 
+PR_template_change [] 
+add_pull_request_template [] 
+commit_swagger_file [] 
+fix_camelcase_swagger [] 
+ian_tidying [] 
+master [] 
+pp-346-swagger-gelato [] 
+swagger_rewording [] 
+origin/HEAD [] 
+origin/PP-195 [] 
+origin/PP-233_swagger_docs [] 
+origin/PP-307 [] 
+origin/PP-307-enforce-required-reference-field [] 
+origin/PP-307-publicapi-only [] 
+origin/PP-308_internal_https [] 
+origin/PP-335 [] 
+origin/PP-421 [] 
+origin/PP-421_fix_status_case [] 
+origin/PP-424 [] 
+origin/PP-424_adding_create_date [] 
+origin/PP-436 [] 
+origin/PP-451 [] 
+origin/PP-453-fix-documentation [] 
+origin/PP-455 [] 
+origin/PP-455_selfurl_apidoc [] 
+origin/PP-457 [] 
+origin/PP-486-Allow_next_url_POST [] 
+origin/PP-489 [] 
+origin/PP-490 [] 
+origin/PP-496-Validate_returnUrl [] 
+origin/PP-497-Amount_validation [] 
+origin/PP-497_swagger_doc [] 
+origin/PP-539-temp [] 
+origin/PP-539_Allowing_self_links_in_payment_search [] 
+origin/PP-539_Fixing_API_Docs_Create_And_Search_Payments [] 
+origin/PP-539_Restricing_attributes_in_create_payment_payload [] 
+origin/PP-539_fixing_payment_event_dates [] 
+origin/PP-539_temp_event_details [] 
+origin/PP-541-lifecycle [] 
+origin/PP-541-remove-backward-compat [] 
+origin/PP-541-remove-old-status [] 
+origin/PP-571-Rate-Limiter-Filter [] 
+origin/PP-572_externalisedId [] 
+origin/PP-582_add_loggin_filter [] 
+origin/PP-611-Error_sanitation-CreateCharge-AccountNotFound [] 
+origin/PP-611-Normalize-ErrorHandling [] 
+origin/PP-611-Normalize-Search_Payments-API [] 
+origin/PP-611-Normalize_CreateCharge_API_errors [] 
+origin/PP-611-Update-Documentation [] 
+origin/PP-618-fix-cert-load [] 
+origin/PP-628-Validate-Payload-Size [] 
+origin/PP-631-Search-charges [] 
+origin/PP-640_Add_cancel_link_in_payment_objects [] 
+origin/PP-640_Add_events_link_in_payment_objects [] 
+origin/PP-656 [] 
+origin/PP-677 [] 
+origin/PP-733-refunds [] 
+origin/PP-800-Request-Denied [] 
+origin/PP-863-card-types-used-available-to-partners [] 
+origin/PP-864 [] 
+origin/PP-864_email_json_not_null [] 
+origin/PP-864_swagger [] 
+origin/PP-926-alpine [] 
+origin/PP-942-refunds [] 
+origin/PP-946_log_time_requestId [] 
+origin/PP_101_quicker_feedback [] 
+origin/PP_101_quicker_feedback_final [] 
+origin/PR_template_change [] 
+origin/add_pull_request_template [] 
+origin/add_responsible-disclosure [] 
+origin/commit_swagger_file [] 
+origin/fix_camelcase_swagger [] 
+origin/fix_cert_loading [] 
+origin/fix_end_to_end_tests [] 
+origin/fix_readme [] 
+origin/fix_tests_in_ci [] 
+origin/ian_docker_wip [] 
+origin/ian_tidying [] 
+origin/master [] 
+origin/pp-126_authorise_publicapi [] 
+origin/pp-221_confirmation_page [] 
+origin/pp-245_secure_cancel_api [] 
+origin/pp-346-swagger-gelato [] 
+origin/pp-409_refactore_get_create_charge_apis [] 
+origin/pp_334_transaction_history [] 
+origin/samjsharpe-patch-1 [] 
+origin/samjsharpe-patch-1-1 [] 
+origin/samjsharpe-patch-1-2 [] 
+origin/swagger_rewording [] 
+alpha_production-1 [1468400781 +0000] Jenkins
+alpha_production-1-14 [1473789498 +0000] Jenkins
+alpha_production-1-15 [1474384638 +0000] Jenkins
+alpha_production-1-17 [1474394938 +0000] Jenkins
+alpha_release-1 [1466772186 +0000] Jenkins
+alpha_release-10 [1470997891 +0000] Jenkins
+alpha_release-11 [1471615793 +0000] Jenkins
+alpha_release-12 [1471619046 +0000] Jenkins
+alpha_release-13 [1472227727 +0000] Jenkins
+alpha_release-14 [1472740250 +0000] Jenkins
+alpha_release-15 [1474278917 +0000] Jenkins
+alpha_release-16 [1474379459 +0000] Jenkins
+alpha_release-17 [1474385864 +0000] Jenkins
+alpha_release-2 [1468491601 +0000] Jenkins
+alpha_release-3 [1468505682 +0000] Jenkins
+alpha_release-4 [1469021827 +0000] Jenkins
+alpha_release-5 [1469800309 +0000] Jenkins
+alpha_release-6 [1470736735 +0000] Jenkins
+alpha_release-7 [1470848281 +0000] Jenkins
+alpha_release-8 [1470922751 +0000] Jenkins
+alpha_release-9 [1470996001 +0000] Jenkins
+alpha_staging-0-10 [1471264738 +0000] Jenkins
+alpha_staging-0-4 [1469524654 +0000] Jenkins
+alpha_staging-1 [1468333253 +0000] Jenkins
+alpha_staging-1-14 [1473775966 +0000] Jenkins
+alpha_staging-1-15 [1474384178 +0000] Jenkins
+alpha_staging-1-17 [1474394482 +0000] Jenkins
+approved-alpha_release-1 [1467287039 +0100] Raul Garcia
+approved-alpha_release-10 [1471258069 +0100] Till Wirth
+approved-alpha_release-14 [1473773479 +0100] Till Wirth
+approved-alpha_release-15 [1474377522 +0100] Ian Maddison
+approved-alpha_release-17 [1474393413 +0100] Ian Maddison
+approved-alpha_release-4 [1469457564 +0100] Imran Bohoran
+approved-alpha_release-7 [1470908847 +0100] Till Wirth
+approved-alpha_staging-0-10 [1471265666 +0100] roryjhs
+approved-alpha_staging-1 [1468399800 +0100] Imran Bohoran
+approved-alpha_staging-1-14 [1473784502 +0100] Till Wirth
+approved-alpha_staging-1-15 [1474384285 +0100] Ian Maddison
+approved-alpha_staging-1-17 [1474394582 +0100] Ian Maddison
