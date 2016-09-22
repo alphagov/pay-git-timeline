@@ -30,6 +30,10 @@ class Repo
     }
   end
 
+  def author(path, buildNumber)
+    `git --git-dir="#{path}" log --format='%an' alpha_release-#{buildNumber}^1..alpha_release-#{buildNumber}^2 | uniq | head -n1`
+  end
+
   def repo_status
     tagList = @git_client.tags(@path).split(/[\r\n]/).map { |line| parse_tag(line) }
     sorted = tagList.sort_by {|t| t[:build_number].to_i }
@@ -60,6 +64,7 @@ class Repo
       {}
     end
   end
+
 
   private
   def default_git_client

@@ -57,12 +57,15 @@ class RepoMergeTimelinePrinter
     "<th class='summary' colspan='2'>Deployed to production</th>" \
     "</tr>"
     repos.map do |repo, _|
-      status = Repo.new("../#{repo}/.git").repo_status
+      repoObj = Repo.new("../#{repo}/.git")
+      status = repoObj.repo_status
       unless status[:latest_release].nil?
+        repoPath = `$WORKSPACE/#{repo}`
+        author = repoObj.author("../#{repo}/.git", status[:latest_release][:build_number])
         puts "<tr>" \
           "<td class='summary'>#{repo}</td>" \
           "<td class='summary'>#{status[:latest_release][:build_number]}</td>" \
-          "<td class='summary'><font size='2'>(#{status[:latest_release][:date]})</font></td>" \
+          "<td class='summary'><font size='2'>(#{status[:latest_release][:date]})</font> <font size='1'>(#{author})</font></td>" \
           "<td class='summary'>#{status[:approved_to_staging][:build_number]}</td>" \
           "<td class='summary'><font size='2'>(#{status[:latest_release][:date]})</font> <font size='1'>(#{status[:approved_to_staging][:approver]})</font></td>" \
           "<td class='summary'>#{status[:deployed_to_staging][:build_number]}</td>" \
