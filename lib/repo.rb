@@ -41,11 +41,11 @@ class Repo
     last_for_each_stage = Hash[grouped.map { |k, v| [k, {:build_number => v.last[:build_number], :date => v.last[:date], :approver => v.last[:approver]}] }]
 
     {
-     latest_release: last_for_each_stage[[nil, "release"]],
-     approved_to_staging: last_for_each_stage[["approved-", "release"]],
-     deployed_to_staging: last_for_each_stage[[nil, "staging"]],
-     approved_to_production: last_for_each_stage[["approved-", "staging"]],
-     deployed_to_production: last_for_each_stage[[nil, "production"]]
+      latest_release: last_for_each_stage.fetch([nil, "release"], {}),
+      approved_to_staging: last_for_each_stage.fetch(["approved-", "release"], {}),
+      deployed_to_staging: last_for_each_stage.fetch([nil, "staging"], {}),
+      approved_to_production: last_for_each_stage.fetch(["approved-", "staging"], {}),
+      deployed_to_production: last_for_each_stage.fetch([nil, "production"], {})
     }
   end
 
