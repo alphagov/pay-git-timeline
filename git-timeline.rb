@@ -60,7 +60,6 @@ class RepoMergeTimelinePrinter
       repoObj = Repo.new("../#{repo}/.git")
       status = repoObj.repo_status
       unless status[:latest_release].nil?
-        repoPath = `$WORKSPACE/#{repo}`
         author = repoObj.author("../#{repo}/.git", status[:latest_release][:build_number])
         puts "<tr>" \
           "<td class='summary'>#{repo}</td>" \
