@@ -33,7 +33,8 @@ class Repo
         pull_request: pr_number,
         repo: repo,
         pr_url: pr_url,
-        datetime: datetime
+        datetime: datetime,
+        tags: tags
       }
     end
 
@@ -42,11 +43,11 @@ class Repo
     end
 
     def author
-      lines[2].split(": ")[1]
+      lines[3].split(": ")[1]
     end
 
     def date
-      lines[3].split(/Date: */)[1]
+      lines[4].split(/Date: */)[1]
     end
 
     def datetime
@@ -54,7 +55,7 @@ class Repo
     end
 
     def pr_number
-      if lines[5] =~ /Merge pull request #([0-9]+)/
+      if lines[6] =~ /Merge pull request #([0-9]+)/
         $1
       else
         nil
@@ -62,7 +63,11 @@ class Repo
     end
 
     def message
-      lines[5].lstrip
+      lines[6].lstrip
+    end
+
+    def tags
+      lines[2].split(", ").select { |t| t =~ /^tag: / }.map {|t| t.split(": ")[1] }
     end
 
     def pr_url
@@ -130,7 +135,7 @@ class Repo
 
   class GitClient
     def log(path, since = nil)
-      cmd = %{git --git-dir="#{path}" log --merges --format=medium}
+      cmd = %{git --git-dir="#{path}" log --merges --format='commit %H%nMerge: %P%n%D%nAuthor: %an <%ae>%nDate:   %aD%n%n%s%n%n%b%n'}
       cmd << " #{since}..HEAD" if since
       `#{cmd}`
     end
