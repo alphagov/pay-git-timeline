@@ -24,7 +24,7 @@ RSpec.describe Repo do
         expect(merges.size).to eq(1)
         expect(merges.first).to eq({
           :sha=>"ae8a2e884e4a33ce8d90f1deb2e1e793e67f30c3",
-          :author=>"David Heath <david.heath@digital.cabinet-office.gov.uk>",
+          :merged_by=>"David Heath <david.heath@digital.cabinet-office.gov.uk>",
           :date=>"Wed, 7 Sep 2016 11:09:13 +0100",
           :message=>"Merge pull request #123",
           :pull_request => "123",

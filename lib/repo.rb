@@ -27,7 +27,7 @@ class Repo
     def to_hash
       {
         sha: sha,
-        author: author,
+        merged_by: merged_by,
         date: date,
         message: message,
         pull_request: pr_number,
@@ -42,7 +42,7 @@ class Repo
       lines[0]
     end
 
-    def author
+    def merged_by
       lines[3].split(": ")[1]
     end
 
@@ -142,6 +142,10 @@ class Repo
 
     def tags(path)
       `git --git-dir="#{path}" for-each-ref --sort=refname --format '%(refname:short) [%(taggerdate:raw)] %(taggername)'`
+    end
+
+    def authors(merge_commit)
+      `git --git-dir="#{path}" log --format='%an' #{merge_commit}^1..#{merge_commit}^2`.split(/\n/)
     end
   end
 end
