@@ -21,20 +21,18 @@ class RepoMergeTimelinePrinter
 
   def merge_timeline
     repos.map do |repo, sha|
-      Repo.new("../#{repo}/.git").merges_to_master(sha).map do |m|
-        m.merge({
-                    repo: repo,
-                    pr_url: "https://github.com/alphagov/#{repo}/pull/#{m[:pull_request]}",
-                    datetime: DateTime.parse(m[:date])
-                })
-      end
+      Repo.new("../#{repo}/.git", repo_name: repo).merges_to_master(sha)
     end.flatten.sort_by {|m| m[:datetime]}
   end
 
   def print_timeline
     puts "<table>"
     merge_timeline.each do |merge|
-      parts = [merge[:date],merge[:repo],%{<a href="#{merge[:pr_url]}">#{merge[:message]}</a>}]
+      parts = [
+        merge[:date],
+        merge[:repo],
+        %{<a href="#{merge[:pr_url]}">#{merge[:message]}</a>}
+      ]
       puts "<tr><td>#{parts.join('</td><td>')}</td></tr>"
     end
     puts "</table>"

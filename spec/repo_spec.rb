@@ -27,7 +27,10 @@ RSpec.describe Repo do
           :author=>"David Heath <david.heath@digital.cabinet-office.gov.uk>",
           :date=>"Wed Sep 7 11:09:13 2016 +0100",
           :message=>"Merge pull request #123",
-          :pull_request => "123"
+          :pull_request => "123",
+          :repo => "sample-repo",
+          :pr_url => "https://github.com/alphagov/sample-repo/pull/123",
+          :datetime => DateTime.parse("Wed Sep 7 11:09:13 2016 +0100")
         }
         )
       end
@@ -53,7 +56,7 @@ RSpec.describe Repo do
     let(:mock_git_client) { double("my git client", tags: tag_output) }
 
     it "should return the latest tags for each tag type" do
-      repo = Repo.new(@repository_dir, git_client: mock_git_client)
+      repo = Repo.new("not-real/.git", git_client: mock_git_client)
 
       expect(repo.repo_status).to eq({
           latest_release: {:build_number=>"17", :date=>"2016-09-20 16:37:44", :approver =>"Jenkins"},
