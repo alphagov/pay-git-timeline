@@ -2,18 +2,27 @@ require 'logger'
 require 'pathname'
 
 class Repo
+  attr_reader :logger
+
   def initialize(path, repo_name: nil, git_client: nil, logger: Logger.new(nil))
     @path = path
     @repo_name = repo_name || Pathname.new(path).dirname.basename.to_s
-    @git_client = git_client || default_git_client
     @logger = logger
+    @git_client = git_client || default_git_client
   end
 
   def merges_to_master(since = nil)
     output = @git_client.log(@path, since)
     commits = output.split(/^commit /).reject(&:empty?)
 
-    commits.map { |c| Commit.new(c, @repo_name).to_hash }
+    commits.map do |commit_text|
+      commit = Commit.new(commit_text, @repo_name)
+      commit.to_hash.merge(authors: authors_for(commit.sha))
+    end
+  end
+
+  def authors_for(merge_commit)
+    @git_client.authors(@path, merge_commit).uniq
   end
 
   class Commit
@@ -74,6 +83,9 @@ class Repo
       "https://github.com/alphagov/#{repo}/pull/#{pr_number}" if pr_number
     end
 
+    def authors
+    end
+
   end
 
   def author(path, buildNumber)
@@ -130,22 +142,33 @@ class Repo
 
   private
   def default_git_client
-    GitClient.new
+    GitClient.new(logger: logger)
   end
 
   class GitClient
+    attr_reader :logger
+
+    def initialize(logger: Logger.new(nil))
+      @logger = logger
+    end
+
     def log(path, since = nil)
       cmd = %{git --git-dir="#{path}" log --merges --format='commit %H%nMerge: %P%n%D%nAuthor: %an <%ae>%nDate:   %aD%n%n%s%n%n%b%n'}
       cmd << " #{since}..HEAD" if since
-      `#{cmd}`
+      exec_cmd(cmd)
     end
 
     def tags(path)
-      `git --git-dir="#{path}" for-each-ref --sort=refname --format '%(refname:short) [%(taggerdate:raw)] %(taggername)'`
+      exec_cmd(%{git --git-dir="#{path}" for-each-ref --sort=refname --format '%(refname:short) [%(taggerdate:raw)] %(taggername)'})
     end
 
-    def authors(merge_commit)
-      `git --git-dir="#{path}" log --format='%an' #{merge_commit}^1..#{merge_commit}^2`.split(/\n/)
+    def authors(path, merge_commit)
+      exec_cmd(%{git --git-dir="#{path}" log --format='%an' #{merge_commit}^1..#{merge_commit}^2}).split(/\n/)
+    end
+
+    def exec_cmd(cmd)
+      logger.info(cmd)
+      `#{cmd}`
     end
   end
 end

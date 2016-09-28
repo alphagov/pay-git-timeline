@@ -22,7 +22,7 @@ RSpec.describe Repo do
       it "lists the merge commits for a given repo" do
         merges = Repo.new(@repository_dir).merges_to_master
         expect(merges.size).to eq(1)
-        expect(merges.first).to eq({
+        expect(merges.first).to match(hash_including({
           :sha=>"ae8a2e884e4a33ce8d90f1deb2e1e793e67f30c3",
           :merged_by=>"David Heath <david.heath@digital.cabinet-office.gov.uk>",
           :date=>"Wed, 7 Sep 2016 11:09:13 +0100",
@@ -30,10 +30,9 @@ RSpec.describe Repo do
           :pull_request => "123",
           :repo => "sample-repo",
           :pr_url => "https://github.com/alphagov/sample-repo/pull/123",
-          :datetime => DateTime.parse("Wed, 7 Sep 2016 11:09:13 +0100"),
-          :tags => []
+          :datetime => DateTime.parse("Wed, 7 Sep 2016 11:09:13 +0100")
         }
-        )
+        ))
       end
     end
 
@@ -60,6 +59,14 @@ RSpec.describe Repo do
       end
     end
 
+    context "repo with different author on branch" do
+      let(:sample_repo_zip) { "#{fixture_dir}/sample-repo4.zip" }
+
+      it "lists the merge commits for a given repo" do
+        merges = Repo.new(@repository_dir).merges_to_master
+        expect(merges.first).to match(hash_including({authors: ['Fred Bloggs']}))
+      end
+    end
   end
 
   describe "#repo_status" do
