@@ -8,20 +8,23 @@ require 'time'
 
 class RepoMergeTimelinePrinter
   def repos
-    {
-        "pay-cardid" => "0df2fa96628fc9a6077d7eb90f7ec4deb9cd6318",
-        "pay-connector" => "1375df7361b4ceab461a01ac8b5db24e80628053",
-        "pay-frontend" => "d1bde6f44dd2ebae74afb2ae4fe0a2b3a8e28320",
-        "pay-logger" => "HEAD",
-        "pay-publicapi" => "4df8b8f5f4b4cc73a3cec57af77bf64aa2f54418",
-        "pay-publicauth" => "d9496e09563cb8e6647a62849dd61fd1688b9759",
-        "pay-selfservice" => "bd04e2740a0600d443ab0d7c6192afe20de477c0",
-    }
+    [
+        "pay-cardid",
+        "pay-connector",
+        "pay-frontend",
+        "pay-logger",
+        "pay-publicapi",
+        "pay-publicauth",
+        "pay-selfservice"
+    ]
   end
 
   def merge_timeline
-    repos.map do |repo, sha|
-      Repo.new("../#{repo}/.git", repo_name: repo).merges_to_master(sha)
+    repos.map do |repo|
+      status = status_for_repo(repo)
+      build_number = status[:deployed_to_production][:build_number]
+      tag = tag_name_for_stage(:deployed_to_production, build_number)
+      Repo.new("../#{repo}/.git", repo_name: repo).merges_to_master(tag)
     end.flatten.sort_by {|m| m[:datetime]}
   end
 
@@ -30,12 +33,35 @@ class RepoMergeTimelinePrinter
     merge_timeline.each do |merge|
       parts = [
         merge[:date],
+        %{<a href="#{merge[:pr_url]}">#{merge[:message]}</a>},
         merge[:repo],
-        %{<a href="#{merge[:pr_url]}">#{merge[:message]}</a>}
+        merge[:authors].join(", "),
+        merge[:tags].map {|t| "<a name='#{merge[:repo]}-#{t}'></a>#{t}" }.join(", ")
       ]
       puts "<tr><td>#{parts.join('</td><td>')}</td></tr>"
     end
     puts "</table>"
+  end
+
+  def tag_name_for_stage(stage, build_number)
+    prefix = {
+      :latest_release => "alpha_release",
+      :approved_to_staging => "approved-alpha_release",
+      :deployed_to_staging => "alpha_staging-1",
+      :approved_to_production => "approved-alpha_staging-1",
+      :deployed_to_production => "alpha_production-1"
+    }.fetch(stage)
+    "#{prefix}-#{build_number}"
+  end
+
+  def link_to_build(repo_name, status, stage, build_number)
+    tag = tag_name_for_stage(stage, build_number)
+    "<a href='##{repo_name}-#{tag}'>#{build_number}</a>"
+  end
+
+  def status_for_repo(repo)
+    @statuses ||= {}
+    @statuses[repo] ||= Repo.new("../#{repo}/.git").repo_status
   end
 
   def repo_status
@@ -48,10 +74,10 @@ class RepoMergeTimelinePrinter
     puts "<table class='summary'>"
     puts "<tr>" \
     "<th class='summary'>Repo</th>" \
-    "<th class='summary' colspan='2'>Latest release</th>" \
-    "<th class='summary' colspan='2'>Approved to staging</th>" \
+    "<th class='summary' colspan='3'>Latest release</th>" \
+    "<th class='summary' colspan='3'>Approved to staging</th>" \
     "<th class='summary' colspan='2'>Deployed to staging</th>" \
-    "<th class='summary' colspan='2'>Approved to production</th>" \
+    "<th class='summary' colspan='3'>Approved to production</th>" \
     "<th class='summary' colspan='2'>Deployed to production</th>" \
     "</tr>"
     repos.map do |repo, _|
@@ -62,15 +88,18 @@ class RepoMergeTimelinePrinter
         puts "<tr>" \
           "<td class='summary'>#{repo}</td>" \
           "<td class='summary'>#{status[:latest_release][:build_number]}</td>" \
-          "<td class='summary'><font size='2'>(#{status[:latest_release][:date]})</font> <font size='1'>(#{author})</font></td>" \
+          "<td class='summary'>#{status[:latest_release][:date]}</td>" \
+          "<td class='summary'>#{author}</td>" \
           "<td class='summary'>#{status[:approved_to_staging][:build_number]}</td>" \
-          "<td class='summary'><font size='2'>(#{status[:latest_release][:date]})</font> <font size='1'>(#{status[:approved_to_staging][:approver]})</font></td>" \
+          "<td class='summary'>#{status[:latest_release][:date]}</td>" \
+          "<td class='summary'>#{status[:approved_to_staging][:approver]}</td>" \
           "<td class='summary'>#{status[:deployed_to_staging][:build_number]}</td>" \
-          "<td class='summary'> <font size='2'>(#{status[:latest_release][:date]})</font></td>" \
+          "<td class='summary'>#{status[:latest_release][:date]}</td>" \
           "<td class='summary'>#{status[:approved_to_production][:build_number]}</td>" \
-          "<td class='summary'><font size='2'>(#{status[:latest_release][:date]})</font>  <font size='1'>(#{status[:approved_to_production][:approver]})</font></td>" \
+          "<td class='summary'>#{status[:latest_release][:date]}</td>" \
+          "<td class='summary'>#{status[:approved_to_production][:approver]}</font></td>" \
           "<td class='summary'>#{status[:deployed_to_production][:build_number]}</td>" \
-          "<td class='summary'><font size='2'>(#{status[:latest_release][:date]})</font></td>" \
+          "<td class='summary'>#{status[:latest_release][:date]}</font></td>" \
           "</tr>"
       end
     end
