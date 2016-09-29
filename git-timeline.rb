@@ -23,7 +23,7 @@ class RepoMergeTimelinePrinter
     repos.map do |repo|
       status = status_for_repo(repo)
       build_number = status[:deployed_to_production][:build_number]
-      tag = tag_name_for_stage(:deployed_to_production, build_number)
+      tag = tag_name_for_stage(:deployed_to_production, build_number) if build_number
       Repo.new("../#{repo}/.git", repo_name: repo).merges_to_master(tag)
     end.flatten.sort_by {|m| m[:datetime]}
   end
