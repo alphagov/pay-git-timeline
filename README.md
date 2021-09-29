@@ -1,5 +1,7 @@
 ## GOV.UK Pay git timeline
 
+> As of September 2021 this repository is no longer actively maintained by the GOV.UK Pay team.
+
 This is a quick hack to generate a single timeline of merges to master on multiple git repositories.
 
 The list of repositories and the starting commit are hard-coded in the script.
